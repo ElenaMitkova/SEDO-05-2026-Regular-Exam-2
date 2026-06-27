@@ -15,13 +15,40 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'dotnet build'
+                bat 'dotnet build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'dotnet test --verbosity normal'
+                bat 'dotnet test --verbosity normal'
+            }
+        }
+    }
+}
+EOFpipeline {
+    agent any
+
+    triggers {
+        githubPush()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'dotnet build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'dotnet test --verbosity normal'
             }
         }
     }
